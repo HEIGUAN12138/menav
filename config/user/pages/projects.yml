@@ -1,0 +1,25 @@
+# 项目展示页（repo 风格卡片）
+# 统计信息（language/stars/forks）由 `npm run sync-projects` 联网抓取并缓存到 dev/
+title: 项目
+subtitle: 我关注的项目
+template: projects
+
+categories:
+  - name: 我的项目
+    icon: fas fa-code
+    sites:
+      - name: MeNav（我的导航站）
+        icon: fab fa-github
+        description: 基于 MeNav 搭建的个人导航站，从 GitHub Pages 发布
+        url: https://github.com/HEIGUAN12138/menav
+  - name: 常用工具
+    icon: fas fa-star
+    sites:
+      - name: MeNav 上游仓库
+        icon: fab fa-github
+        description: 一键部署的个人导航站生成器，支持书签导入与自动构建
+        url: https://github.com/rbetree/menav
+      - name: MarksVault
+        icon: fab fa-github
+        description: 浏览器扩展，用于管理、整理和备份书签数据
+        url: 'https://github.com/rbetree/MarksVault'

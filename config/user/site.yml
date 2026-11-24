@@ -1,0 +1,92 @@
+# 个人站配置（用户配置采用“完全替换”策略，本文件覆盖 config/_default/site.yml）
+
+# 网站基本信息
+title: 我的导航
+description: 个人常用网址与资源导航
+author: HEIGUAN12138
+favicon: menav.svg
+logo_text: 我的导航
+
+# 后台入口（可选）：静态形态手动填写后台地址，配置后公开站右下角显示「管理」悬浮按钮。
+# admin_url: https://menav-backend.example.workers.dev
+
+icons:
+  # 站点卡片图标模式：favicon 自动加载站点图标（失败回退 Font Awesome），manual 始终用手动图标
+  mode: favicon
+
+  # favicon 服务区域：cn 优先 gstatic.cn（国内更快），com 优先 gstatic.com
+  region: cn
+
+# 安全策略：链接 URL scheme 白名单
+security:
+  allowedSchemes:
+    - http
+    - https
+    - mailto
+    - tel
+
+# 主题设置：dark | light | system
+theme:
+  mode: dark
+
+# 字体设置
+fonts:
+  source: css
+  cssUrl: 'https://fontsapi.zeoseven.com/292/main/result.css'
+  preload: true
+  family: LXGW WenKai
+  weight: normal
+
+# 个人资料：显示在首页顶部的欢迎信息
+# 注意：导航第一项（首页）标题区优先使用这里的文案
+profile:
+  title: 你好，
+  subtitle: 这里是我的资源导航
+
+# RSS：articles 页面文章聚合（当前导航未启用文章页，保留默认配置以便以后开启）
+rss:
+  enabled: true
+  cacheDir: dev
+  fetch:
+    timeoutMs: 10000
+    totalTimeoutMs: 60000
+    concurrency: 5
+    maxRetries: 1
+    maxRedirects: 3
+  articles:
+    perSite: 8
+    total: 50
+    summaryMaxLength: 200
+
+# GitHub：projects 页面右侧「贡献热力图」
+github:
+  username: 'HEIGUAN12138'
+  heatmapColor: 37b24d
+  cacheDir: dev
+
+# 社交媒体链接：显示在侧边栏底部
+social:
+  - name: GitHub
+    url: https://github.com/HEIGUAN12138
+    icon: fab fa-github
+
+# 导航配置（顺序第一项即首页/默认打开页）
+navigation:
+  - name: 资源导航 # 菜单名称
+    icon: fas fa-bookmark # Font Awesome 图标类
+    id: bookmarks # 页面标识符（唯一，需与 pages/<id>.yml 对应）
+  - name: 项目
+    icon: fas fa-project-diagram
+    id: projects
+  - name: 关于
+    icon: fas fa-file-alt
+    id: content
+  # 以下两页暂不在侧边栏显示（保留文件，需要时把 hidden 去掉即可）
+  - name: 常用
+    icon: fas fa-star
+    id: common
+    hidden: true
+  - name: 文章
+    icon: fas fa-book
+    id: articles
+    hidden: true
