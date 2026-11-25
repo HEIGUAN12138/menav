@@ -17,3 +17,6 @@
 @import './styles/layout.css';
 @import './styles/components.css';
 @import './styles/utilities.css';
+
+/* 覆盖层：文档站风格皮肤（必须保持在最后，用于覆盖上面的基础样式） */
+@import './styles/doc.css';

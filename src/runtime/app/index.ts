@@ -17,6 +17,10 @@ const initRouting = require('./router.ts') as (
   dom: RuntimeDom,
   api: { ui: RuntimeUiApi; search: RuntimeSearchApi }
 ) => RuntimeRoutingApi;
+const initToc = require('./toc.ts') as (
+  dom: RuntimeDom,
+  getCurrentPageId: () => string
+) => { refresh: () => void };
 const { SELECTORS, byId, qs, qsa } =
   require('../dom/selectors.ts') as typeof import('../dom/selectors');
 const { getRuntimeConfig } = require('../runtime-config.ts') as typeof import('../runtime-config');
@@ -157,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   logRuntimeVersion();
 
   initRouting(state, dom, { ui, search });
+  initToc(dom, () => state.currentPageId);
 
   initializeSearchIndex(search);
 });

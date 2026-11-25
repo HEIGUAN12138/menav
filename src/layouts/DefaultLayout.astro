@@ -42,6 +42,11 @@ const brandImage = (site.logo || site.favicon || '').replace(/^\.?\//, '');
 const fontAwesomeCssUrl =
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css';
 const fontAwesomePreload = `<link rel="preload" href="${fontAwesomeCssUrl}" as="style" onload="this.onload=null;this.rel='stylesheet'" />`;
+
+// 顶部品牌链接指向导航第一项（即首页），避免硬编码页面 id
+const visibleNavigation = navigationData.filter((item) => !item.hidden);
+const homePageId = visibleNavigation[0]?.id || pages[0]?.id || '';
+const brandHref = homePageId ? `?page=${homePageId}` : './';
 ---
 
 <!doctype html>
@@ -70,43 +75,58 @@ const fontAwesomePreload = `<link rel="preload" href="${fontAwesomeCssUrl}" as="
     </noscript>
   </head>
   <body class="loading">
-    <div class="layout">
-      <div class="mobile-buttons">
-        <button class="menu-toggle" aria-label="切换菜单">
-          <i class="fas fa-bars"></i>
-        </button>
-        <button class="search-toggle" aria-label="切换搜索">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
+    <a class="skip-link" href="#content">跳到正文</a>
 
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="sidebar-toggle" type="button" aria-label="收起/展开目录栏">
+          <i class="fas fa-bars toggle-icon"></i>
+        </button>
+
+        <a class="brand" href={brandHref}>
+          {
+            brandImage && (
+              <img
+                class="brand-logo"
+                src={`./${brandImage}`}
+                alt={`${site.title} logo`}
+                width="24"
+                height="24"
+              />
+            )
+          }
+          <span class="brand-name" data-editable="logo-text">{site.logo_text}</span>
+        </a>
+
+        <nav class="top-nav" aria-label="主导航">
+          <Navigation navigation={navigationData} />
+        </nav>
+
+        <div class="topbar-actions">
+          <SearchBar />
+          <button class="theme-toggle" type="button" aria-label="切换主题">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="search-toggle" type="button" aria-label="搜索">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="menu-toggle" type="button" aria-label="切换目录栏">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
       <div class="overlay"></div>
 
-      <nav class="sidebar">
-        <div class="logo">
-          <div class="logo-brand">
-            {
-              brandImage && (
-                <img
-                  class="logo-image"
-                  src={`./${brandImage}`}
-                  alt={`${site.title} logo`}
-                  width="26"
-                  height="26"
-                />
-              )
-            }
-            <h1 data-editable="logo-text">{site.logo_text}</h1>
-          </div>
-          <button class="sidebar-toggle" aria-label="收起/展开侧边栏">
-            <i class="fas fa-chevron-left toggle-icon"></i>
-          </button>
+      <nav class="sidebar" aria-label="页面目录">
+        <div class="sidebar-head">
+          <span class="sidebar-head-title">页面目录</span>
+          <span class="sidebar-head-hint">点击跳转</span>
         </div>
 
         <div class="sidebar-content">
-          <div class="nav-section">
-            <Navigation navigation={navigationData} />
-          </div>
           <div class="sidebar-submenu-panel" aria-label="页面分类" data-container="sidebar-submenu">
           </div>
         </div>
@@ -125,16 +145,11 @@ const fontAwesomePreload = `<link rel="preload" href="${fontAwesomeCssUrl}" as="
               © {currentYear}
               <a href="https://github.com/rbetree/menav" target="_blank" rel="noopener">MeNav</a>
             </p>
-            <p>
-              by <a href="https://github.com/rbetree" target="_blank" rel="noopener">rbetree</a>
-            </p>
           </div>
         </div>
       </nav>
 
-      <main class="content">
-        <SearchBar />
-
+      <main class="content" id="content">
         {
           pages.map((entry) => (
             <div class:list={['page', entry.id, entry.isActive && 'active']} id={entry.id}>
@@ -147,6 +162,11 @@ const fontAwesomePreload = `<link rel="preload" href="${fontAwesomeCssUrl}" as="
           ))
         }
       </main>
+
+      <aside class="page-toc" aria-label="页面导航">
+        <p class="toc-title">页面导航</p>
+        <nav class="toc-nav" id="page-toc-nav"></nav>
+      </aside>
 
       {
         adminUrl && adminUrl !== '#' && (
@@ -178,10 +198,6 @@ const fontAwesomePreload = `<link rel="preload" href="${fontAwesomeCssUrl}" as="
 
       <button class="category-toggle" id="category-toggle" aria-label="展开/收起分类">
         <i class="fas fa-angle-double-down"></i>
-      </button>
-
-      <button class="theme-toggle" aria-label="切换主题">
-        <i class="fas fa-moon"></i>
       </button>
     </div>
 

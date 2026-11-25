@@ -27,14 +27,14 @@ security:
 
 # 主题设置：dark | light | system
 theme:
-  mode: dark
+  mode: light
 
-# 字体设置
+# 字体设置：文档站风格，使用系统无衬线体（不再加载手写体）
 fonts:
-  source: css
-  cssUrl: 'https://fontsapi.zeoseven.com/292/main/result.css'
-  preload: true
-  family: LXGW WenKai
+  source: system
+  family: >-
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif
   weight: normal
 
 # 个人资料：显示在首页顶部的欢迎信息
